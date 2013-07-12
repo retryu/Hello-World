@@ -1,0 +1,70 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <FrameLayout
+        android:id="@+id/FrameLayout_GLview"
+        android:layout_width="fill_parent"
+        android:layout_height="30dip"
+        android:visibility="invisible" >
+    </FrameLayout>
+
+    <com.widget.FaceImage
+        android:id="@+id/Img"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/Btn_Cammer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="相机" />
+
+        <Button
+            android:id="@+id/Btn_Gallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/Btn_Cammer"
+            android:text="相册" >
+        </Button>
+
+        <Button
+            android:id="@+id/Btn_Hair"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选择发型"
+             />
+        <Button 
+        	android:id="@+id/Btn_Face"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选择脸部"
+            />
+        <Button 
+            android:id="@+id/Btn_Render"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="渲染"
+            />
+         <Button 
+            android:id="@+id/Btn_Eraser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="渲染"
+            />
+    </LinearLayout>
+
+    <com.widget.HorizontalListView
+        android:id="@+id/Lv_HairStyle"
+        android:layout_width="fill_parent"
+        android:layout_height="200dip"
+        android:layout_alignParentBottom="true" >
+    </com.widget.HorizontalListView>
+
+</RelativeLayout>
