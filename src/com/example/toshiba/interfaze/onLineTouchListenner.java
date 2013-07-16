@@ -3,6 +3,8 @@ package com.example.toshiba.interfaze;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.R.integer;
+import android.provider.ContactsContract.CommonDataKinds.Event;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +22,15 @@ public class onLineTouchListenner implements OnTouchListener {
 	List<Hpoint> hairPoints;
 	List<Hpoint> facePoints;
 	FaceImage faceImage;
+	int mode;
+	private static final int DRAG = 1;
+	private static final int ZOOM = 2;
+
+	float startX1;
+	float startY1;
+	float startX2;
+	float startY2;
+	float dis;
 
 	public onLineTouchListenner() {
 		hairPoints = new ArrayList<Hpoint>();
@@ -28,7 +39,7 @@ public class onLineTouchListenner implements OnTouchListener {
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
-		int action = event.getAction();
+		int action = event.getActionMasked();
 
 		Log.e("debug", "onTouch");
 		float x = event.getX();
@@ -36,11 +47,47 @@ public class onLineTouchListenner implements OnTouchListener {
 		switch (action) {
 
 		case MotionEvent.ACTION_DOWN:
-			printPoints();
+			// printPoints();
+			Log.d("debug", "down");
+			mode = DRAG;
+			startX1 = event.getX(0);
+			startY1 = event.getY(0);
+			break;
 
+		case MotionEvent.ACTION_POINTER_DOWN:
+			Log.d("debug", "ACTION_POINTER_DOWN");
+			startX1 = event.getX(0);
+			startY1 = event.getY(0);
+
+			startX2 = event.getX(1);
+			startY2 = event.getY(1);
+
+			Log.e("debug", "start_x1:" + startX1 + "  start_y1:" + startY1
+					+ "  start_x2:" + startX2 + "  start_Y2:" + startY2);
+			dis = getDistance(event);
+			mode = ZOOM;
 			break;
 
 		case MotionEvent.ACTION_MOVE:
+
+			if (mode == DRAG) {
+				Log.d("debug", "DRAG");
+				float x1 = event.getX();
+				float y1 = event.getY();
+				Log.e("debug", "x偏移:" + (x1 - startX1) + " y轴偏移"
+						+ (y1 - startY1));
+			}
+			if (mode == ZOOM) {
+				Log.d("debug", "ZOOM");
+				int pointCount = event.getPointerCount();
+				if (pointCount >= 2) {
+					float disNos = getDistance(event);
+					Log.e("debug", "dis:" + dis + "  disNow:" + disNos
+							+ "  放大倍数：" + disNos / dis);
+
+				}
+			}
+
 			if (faceImage.getType() == 1) {
 				Hpoint point = new Hpoint();
 				point.setX(x);
@@ -59,17 +106,33 @@ public class onLineTouchListenner implements OnTouchListener {
 					faceImage.invalidate();
 				}
 			}
-
+			Log.e("debug", "ACTION_MOVE");
 			break;
 
 		case MotionEvent.ACTION_UP:
-
+			Log.e("debug", "ACTION_UP");
 			break;
 		case MotionEvent.ACTION_CANCEL:
 			break;
 		}
 
 		return true;
+	}
+
+	public float getDistance(MotionEvent event) {
+		int distance = 0;
+
+		float x1 = event.getX(0);
+		float y1 = event.getY(0);
+
+		float x2 = event.getX(1);
+		float y2 = event.getY(1);
+
+		float d1 = x1 - x2;
+		float d2 = y2 - y2;
+		float s = (float) (Math.pow(d1, 2) + Math.pow(d2, 2));
+		s = (float) Math.sqrt(s);
+		return s;
 	}
 
 	public void printPoints() {

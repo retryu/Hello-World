@@ -56,7 +56,7 @@
             android:id="@+id/Btn_Eraser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="渲染"
+            android:text="清除"
             />
     </LinearLayout>
 
